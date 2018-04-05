@@ -16,7 +16,11 @@ mean(xmax) #average max temp is 25.57143
 xmin[xmin < mean(xmin)] #20.5 20.3 17.2 18.2
 
 #e
+## Not relevant
 xmin[xmin>mean(xmin)] #23.0 28.2 22.4
+
+## Correct
+xmin[xmax > mean(xmax)]
 
 #f
 xmin <- dayNames
@@ -41,6 +45,8 @@ temperaturesFarenheit <- data.frame(
 
 #j
 #i
+
+## Use shortcut function 1:5
 temperaturesFarenheit <- data.frame(
   df.farenheitmin=xminFarenheit[c(1, 2, 3, 4, 5)],
   df.farenheitmax=xmaxFarenheit[c(1, 2, 3, 4, 5)]
@@ -49,3 +55,19 @@ temperaturesFarenheit <- data.frame(
 temperaturesFarenheit <- data.frame(
   df.farenheitmin=xminFarenheit[-c(6, 7)],
   df.farenheitmax=xmaxFarenheit[-c(6, 7)])
+
+## Easier way to the do above:
+
+temperatures <- within(temperatures, {
+  xminFahrenheit <- xmin * (9/5) + 32
+  xmaxFahrenheit <- xmax * (9/5) + 32
+})
+
+temperaturesFahrenheit <- temeratures[, c('xminFahrenheit', 'xmaxFahrenheit)]
+
+## Easier to subset the whole data.frame instead of 
+## doing this for each vector used in its construction
+
+temperaturesFahrenheit[1:5, ]
+temperaturesFahrenheit[-(6:7), ]
+
